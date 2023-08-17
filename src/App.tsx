@@ -1,25 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import LineChart from "./LineChart";
 
 function App() {
+  const data = [
+    { x: 0, y: 50 },
+    { x: 20, y: 10 },
+    { x: 40, y: 70 },
+    { x: 60, y: 50 },
+    { x: 80, y: -50 },
+  ];
+
+  const label = {
+    x: {
+      display: true,
+      step: 20,
+      axisColor: "rgb(0,0,0,0.1)",
+      fontSize: "12px",
+    },
+    y: {
+      display: true,
+      //min: -130,
+      // max: 80,
+      step: 15,
+      axisColor: "rgb(0,0,0,0.1)",
+      fontSize: "12px",
+    },
+  };
+
+  const style = {
+    backgroundColor: "white",
+    lineColor: "green",
+    pointColor: "green",
+    pointSize: "3",
+    areaColor: "rgb(130, 190, 150, 0.5)",
+    //areaGradient: ["#22c55e", "white"],
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <LineChart
+      width={400}
+      height={300}
+      data={data}
+      label={label}
+      style={style}
+    />
   );
 }
 
