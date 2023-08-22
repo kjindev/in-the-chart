@@ -1,7 +1,17 @@
-export interface DataType {
+export interface XYType {
   x: number;
   y: number;
 }
+
+export interface DataType {
+  x: number[];
+  y: number[];
+  lineColor: string;
+  pointColor: string;
+  pointSize: string;
+  areaColor: string;
+}
+
 export interface DataProps {
   width: number;
   height: number;
@@ -24,12 +34,18 @@ export interface DataProps {
       fontSize?: string;
     };
   };
-  style: {
+  option: {
     backgroundColor?: string;
-    lineColor?: string;
-    pointColor?: string;
-    pointSize?: string;
-    areaColor?: string;
-    areaGradient?: string[];
   };
+}
+
+export interface DatasetType {
+  points: XYType[];
+  pointsPath: string;
+  areaPoints: XYType[];
+  areaPath: string;
+  lineColor: string;
+  pointColor: string;
+  pointSize: string;
+  areaColor: string;
 }

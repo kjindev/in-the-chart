@@ -4,34 +4,30 @@ function App() {
   const data = [
     {
       x: [0, 20, 40, 60, 80],
-      y: [20, 30, 50, 50, -20],
+      y: [70, 20, 50, 20, 50],
       lineColor: "green",
       pointColor: "green",
       pointSize: "3",
-      areaColor: "rgb(130, 190, 150, 0.5)",
+      areaColor: "green",
     },
     {
       x: [0, 20, 40, 60, 80],
-      y: [90, 50, 200, 10, -20],
+      y: [10, 30, 100, 10, 0],
       lineColor: "blue",
       pointColor: "blue",
       pointSize: "3",
-      areaColor: "rgb(130, 190, 150, 0.5)",
+      areaColor: "blue",
     },
   ];
 
   const label = {
     x: {
       display: true,
-      step: 20,
       axisColor: "rgb(0,0,0,0.1)",
-      fontSize: "12px",
+      fontSize: "13px",
     },
     y: {
       display: true,
-      //min: -130,
-      // max: 80,
-      step: 15,
       axisColor: "rgb(0,0,0,0.1)",
       fontSize: "12px",
     },
@@ -43,8 +39,8 @@ function App() {
 
   return (
     <LineChart
-      width={400}
-      height={300}
+      width={500}
+      height={500}
       data={data}
       label={label}
       option={option}
