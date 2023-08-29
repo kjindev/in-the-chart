@@ -36,11 +36,11 @@ const LineChart = ({ width, height, data, label, option }: DataProps) => {
 
   const [xRange, setXrange] = useState<{ min: number; max: number }>({
     min: 1,
-    max: 1,
+    max: 2,
   });
   const [yRange, setYrange] = useState<{ min: number; max: number }>({
     min: 1,
-    max: 1,
+    max: 2,
   });
 
   const [xAxis, setXAxis] = useState({
@@ -85,7 +85,7 @@ const LineChart = ({ width, height, data, label, option }: DataProps) => {
   }, [data]);
 
   useEffect(() => {
-    if (yRange) {
+    if (xRange && yRange) {
       const xStep =
         label.x.step ||
         Math.floor((xRange.max - xRange.min) / data[0].x.length);
@@ -115,8 +115,9 @@ const LineChart = ({ width, height, data, label, option }: DataProps) => {
     let pointsPath: string | string[] = [];
     let areaPoints: XYType[][] = [];
     let areaPath: string | string[] = [];
+    // console.log("xAxis", xAxis);
 
-    if (points.length < data.length && yAxis) {
+    if (xAxis && yAxis && points.length < data.length) {
       let temp1: XYType[][] = [];
       for (let i = 0; i < data.length; i++) {
         let temp2: XYType[] = [];
@@ -174,10 +175,23 @@ const LineChart = ({ width, height, data, label, option }: DataProps) => {
       }
 
       setDataset(datasetTemp);
-      if (dataset.length !== 0) setLoading(false);
+      if (dataset.length !== 0) {
+        setLoading(false);
+      }
     }
   }, [xAxis, yAxis]);
 
+  if (loading) {
+    return (
+      <div
+        style={{
+          width: width,
+          backgroundColor: option.backgroundColor,
+          borderRadius: option.borderRadius,
+        }}
+      ></div>
+    );
+  }
   return (
     <div
       style={{
@@ -203,8 +217,8 @@ const LineChart = ({ width, height, data, label, option }: DataProps) => {
       >
         {!loading && (
           <svg width={svgWidth} height={svgHeight}>
-            {dataset?.map((item: DatasetType) => (
-              <>
+            {dataset?.map((item: DatasetType, index: number) => (
+              <g key={index}>
                 <polyline
                   points={item?.pointsPath}
                   fill="none"
@@ -227,7 +241,7 @@ const LineChart = ({ width, height, data, label, option }: DataProps) => {
                     fill={item?.pointColor}
                   />
                 ))}
-              </>
+              </g>
             ))}
             {/* X Axis Grid */}
             {label.x.grid &&
