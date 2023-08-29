@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { DataProps, XYType, DatasetType } from "./types";
+import LineChartTitle from "./LineChartTitle";
 
 const LineChart = ({ width, height, data, label, option }: DataProps) => {
   const svgWidth = width;
-  const svgHeight = height;
+  const titlePadding = label.title?.fontSize
+    ? Number(label.title.fontSize.slice(0, -2)) * 1.2
+    : 16 * 0.6;
+  const titleHeight = label.title ? height * 0.07 + titlePadding : 0;
+  const svgHeight = height - titleHeight;
+  const [loading, setLoading] = useState(true);
 
   const chartMargin = {
     x: {
@@ -13,41 +19,40 @@ const LineChart = ({ width, height, data, label, option }: DataProps) => {
       text: label.x.fontSize ? Number(label.x.fontSize.slice(0, -2)) + 5 : 20,
     },
     y: {
+      title: label.title?.fontSize
+        ? Number(label.title.fontSize.slice(0, -2))
+        : 12 * 3,
       body: label.x.fontSize
-        ? Number(label.x.fontSize.slice(0, -2)) + 15
+        ? Number(label.x.fontSize.slice(0, -2)) + 12
         : 12 * 3,
       text: label.y.fontSize ? Number(label.y.fontSize.slice(0, -2)) - 8 : 7,
     },
   };
 
-  const titleHeight = label.title.fontSize
-    ? Number(label.title.fontSize.slice(0, -2)) - 8
-    : 7;
-
   const chartWidth = svgWidth - chartMargin.x.body * 1.7;
-  const chartHeight = svgHeight - chartMargin.y.body * 2 - titleHeight - 18;
+  const chartHeight = svgHeight - chartMargin.y.body * 2 - 7;
 
   const [dataset, setDataset] = useState<DatasetType[]>([]);
 
   const [xRange, setXrange] = useState<{ min: number; max: number }>({
-    min: 0,
-    max: 0,
+    min: 1,
+    max: 1,
   });
   const [yRange, setYrange] = useState<{ min: number; max: number }>({
-    min: 0,
-    max: 0,
+    min: 1,
+    max: 1,
   });
 
   const [xAxis, setXAxis] = useState({
     step: 5,
     numOfGrid: 5,
-    scale: 0,
+    scale: 1,
   });
 
   const [yAxis, setYAxis] = useState({
     step: 5,
     numOfGrid: 5,
-    scale: 0,
+    scale: 1,
   });
 
   useEffect(() => {
@@ -111,7 +116,7 @@ const LineChart = ({ width, height, data, label, option }: DataProps) => {
     let areaPoints: XYType[][] = [];
     let areaPath: string | string[] = [];
 
-    if (points.length < data.length) {
+    if (points.length < data.length && yAxis) {
       let temp1: XYType[][] = [];
       for (let i = 0; i < data.length; i++) {
         let temp2: XYType[] = [];
@@ -169,170 +174,180 @@ const LineChart = ({ width, height, data, label, option }: DataProps) => {
       }
 
       setDataset(datasetTemp);
+      if (dataset.length !== 0) setLoading(false);
     }
   }, [xAxis, yAxis]);
 
   return (
     <div
       style={{
+        width: width,
         backgroundColor: option.backgroundColor,
-        width: svgWidth,
-        height: svgHeight,
         borderRadius: option.borderRadius,
       }}
     >
+      {label.title && (
+        <LineChartTitle
+          width={width}
+          titleHeight={titleHeight}
+          option={label.title}
+        />
+      )}
       <div
         style={{
-          fontSize: label.title.fontSize,
-          textAlign: "center",
-          height: titleHeight * 2,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          backgroundColor: option.backgroundColor,
+          width: svgWidth,
+          height: svgHeight,
+          borderRadius: option.borderRadius,
         }}
       >
-        <div> {label.title.text}</div>
-      </div>
-      <svg width={svgWidth} height={svgHeight}>
-        <g height={chartHeight}>
-          {dataset.map((item: DatasetType) => (
-            <>
-              <polyline
-                points={item.pointsPath}
-                fill="none"
-                stroke={item.lineColor}
-                strokeWidth="2"
-              />
-              {item.areaColor && (
-                <polygon
-                  points={item.areaPath}
-                  fill={item.areaColor}
-                  opacity={0.2}
+        {!loading && (
+          <svg width={svgWidth} height={svgHeight}>
+            {dataset?.map((item: DatasetType) => (
+              <>
+                <polyline
+                  points={item?.pointsPath}
+                  fill="none"
+                  stroke={item?.lineColor}
+                  strokeWidth="2"
                 />
+                {item?.areaColor && (
+                  <polygon
+                    points={item?.areaPath}
+                    fill={item?.areaColor}
+                    opacity={0.2}
+                  />
+                )}
+                {item?.points.map((point: XYType, index: number) => (
+                  <circle
+                    key={index}
+                    cx={point?.x}
+                    cy={point?.y}
+                    r={item?.pointSize}
+                    fill={item?.pointColor}
+                  />
+                ))}
+              </>
+            ))}
+            {/* X Axis Grid */}
+            {label.x.grid &&
+              Array.from({ length: Math.floor(xAxis.numOfGrid) - 1 }).map(
+                (_, index) => {
+                  const xPosition =
+                    chartMargin.x.body +
+                    (index + 1) * (chartWidth / xAxis.numOfGrid);
+                  const yPosition = chartMargin.y.body;
+                  return (
+                    <line
+                      key={index}
+                      x1={xPosition}
+                      y1={yPosition}
+                      x2={xPosition}
+                      y2={yPosition + chartHeight}
+                      stroke={label.x.axisColor}
+                    />
+                  );
+                }
               )}
-              {item.points.map((point: XYType, index: number) => (
-                <circle
-                  key={index}
-                  cx={point.x}
-                  cy={point.y}
-                  r={item.pointSize}
-                  fill={item.pointColor}
-                />
-              ))}
-            </>
-          ))}
-        </g>
-        {/* X Axis Grid */}
-        {label.x.grid &&
-          Array.from({ length: Math.floor(xAxis.numOfGrid) - 1 }).map(
-            (_, index) => {
-              const xPosition =
-                chartMargin.x.body +
-                (index + 1) * (chartWidth / xAxis.numOfGrid);
-              const yPosition = chartMargin.y.body;
-              return (
-                <line
-                  key={index}
-                  x1={xPosition}
-                  y1={yPosition}
-                  x2={xPosition}
-                  y2={yPosition + chartHeight}
-                  stroke={label.x.axisColor}
-                />
-              );
-            }
-          )}
-        {/* X Axis Label */}
-        {label.x.display &&
-          Array.from({ length: Math.ceil(xAxis.numOfGrid) + 1 }).map(
-            (_, index) => {
-              const xPosition =
-                chartMargin.x.body + index * (chartWidth / xAxis.numOfGrid);
-              const yPosition =
-                chartHeight + chartMargin.y.body + chartMargin.x.text;
-              return (
-                <text
-                  key={index}
-                  x={xPosition}
-                  y={yPosition}
-                  textAnchor="middle"
-                  style={{ fontSize: label.x.fontSize }}
-                >
-                  {xRange.min + xAxis.step * index > xRange.max
-                    ? ""
-                    : xRange.min + xAxis.step * index}
-                </text>
-              );
-            }
-          )}
-        {/* Y Axis Grid */}
-        {label.y.grid &&
-          Array.from({ length: Math.ceil(yAxis.numOfGrid) }).map((_, index) => {
-            const xPosition = chartMargin.x.body;
-            const yPosition =
-              chartMargin.y.body + index * (chartHeight / yAxis.numOfGrid);
-            return (
+            {/* X Axis Label */}
+            {label.x.display &&
+              Array.from({ length: Math.ceil(xAxis.numOfGrid) + 1 }).map(
+                (_, index) => {
+                  const xPosition =
+                    chartMargin.x.body + index * (chartWidth / xAxis.numOfGrid);
+                  const yPosition =
+                    chartHeight + chartMargin.y.body + chartMargin.x.text;
+                  return (
+                    <text
+                      key={index}
+                      x={xPosition}
+                      y={yPosition}
+                      textAnchor="middle"
+                      style={{ fontSize: label.x.fontSize }}
+                    >
+                      {xRange.min + xAxis.step * index > xRange.max
+                        ? ""
+                        : xRange.min + xAxis.step * index}
+                    </text>
+                  );
+                }
+              )}
+            {/* Y Axis Grid */}
+            {label.y.grid &&
+              Array.from({ length: Math.ceil(yAxis.numOfGrid) }).map(
+                (_, index) => {
+                  const xPosition = chartMargin.x.body;
+                  const yPosition =
+                    chartMargin.y.body +
+                    index * (chartHeight / yAxis.numOfGrid);
+                  return (
+                    <line
+                      key={index}
+                      x1={xPosition}
+                      y1={yPosition}
+                      x2={xPosition + chartWidth}
+                      y2={yPosition}
+                      stroke={label.y.axisColor}
+                    />
+                  );
+                }
+              )}
+            {/* Y Axis Label */}
+            {label.y.display &&
+              Array.from({ length: Math.ceil(yAxis.numOfGrid) + 1 }).map(
+                (_, index) => {
+                  const xPosition = chartMargin.x.body - chartMargin.y.text;
+                  // const yPosition =
+                  //   chartMargin.y.body + index * (chartHeight / yAxis.numOfGrid);
+                  const yPosition =
+                    chartMargin.y.body +
+                    index * (chartHeight / yAxis.numOfGrid);
+
+                  return (
+                    <text
+                      key={index}
+                      x={xPosition}
+                      y={yPosition}
+                      textAnchor="end"
+                      alignmentBaseline="middle"
+                      style={{ fontSize: label.y.fontSize }}
+                    >
+                      {yRange.max - yAxis.step * index < yRange.min
+                        ? ""
+                        : yRange.max - yAxis.step * index}
+                    </text>
+                  );
+                }
+              )}
+            {/* X axis */}
+            <line
+              x1={chartMargin.x.body}
+              y1={chartMargin.y.body + chartHeight}
+              x2={chartWidth + chartMargin.x.body}
+              y2={chartMargin.y.body + chartHeight}
+              stroke={label.x.axisColor}
+            />
+            {/* Y axis */}
+            <line
+              x1={chartMargin.x.body}
+              y1={chartMargin.y.body}
+              x2={chartMargin.x.body}
+              y2={chartHeight + chartMargin.y.body}
+              stroke={label.y.axisColor}
+            />
+            {/* X2 axis */}
+            {label.x.grid && (
               <line
-                key={index}
-                x1={xPosition}
-                y1={yPosition}
-                x2={xPosition + chartWidth}
-                y2={yPosition}
+                x1={chartMargin.x.body + chartWidth}
+                y1={chartMargin.y.body}
+                x2={chartMargin.x.body + chartWidth}
+                y2={chartHeight + chartMargin.y.body}
                 stroke={label.y.axisColor}
               />
-            );
-          })}
-        {/* Y Axis Label */}
-        {label.y.display &&
-          Array.from({ length: Math.ceil(yAxis.numOfGrid) + 1 }).map(
-            (_, index) => {
-              const xPosition = chartMargin.x.body - chartMargin.y.text;
-              const yPosition =
-                chartMargin.y.body + index * (chartHeight / yAxis.numOfGrid);
-
-              return (
-                <text
-                  key={index}
-                  x={xPosition}
-                  y={yPosition}
-                  textAnchor="end"
-                  alignmentBaseline="middle"
-                  style={{ fontSize: label.y.fontSize }}
-                >
-                  {yRange.max - yAxis.step * index < yRange.min
-                    ? ""
-                    : yRange.max - yAxis.step * index}
-                </text>
-              );
-            }
-          )}
-        {/* X axis */}
-        <line
-          x1={chartMargin.x.body}
-          y1={chartMargin.y.body + chartHeight}
-          x2={chartWidth + chartMargin.x.body}
-          y2={chartMargin.y.body + chartHeight}
-          stroke={label.x.axisColor}
-        />
-        {/* Y axis */}
-        <line
-          x1={chartMargin.x.body}
-          y1={chartMargin.y.body}
-          x2={chartMargin.x.body}
-          y2={chartHeight + chartMargin.y.body}
-          stroke={label.y.axisColor}
-        />
-        {/* X2 axis */}
-        {label.x.grid && (
-          <line
-            x1={chartMargin.x.body + chartWidth}
-            y1={chartMargin.y.body}
-            x2={chartMargin.x.body + chartWidth}
-            y2={chartHeight + chartMargin.y.body}
-            stroke={label.y.axisColor}
-          />
+            )}
+          </svg>
         )}
-      </svg>
+      </div>
     </div>
   );
 };

@@ -8,38 +8,31 @@ function App() {
       lineColor: "green",
       pointColor: "green",
       pointSize: "3",
-      //  areaColor: "green",
-    },
-    {
-      x: [0, 20, 40, 60, 80],
-      y: [30, 70, 20, 70, 30],
-      lineColor: "blue",
-      pointColor: "blue",
-      pointSize: "3",
-      // areaColor: "blue",
+      areaColor: "green",
     },
   ];
 
   const label = {
     x: {
       display: true,
-      step: 20,
+      step: 10,
       axisColor: "rgb(0,0,0,0.1)",
       fontSize: "13px",
       grid: true,
     },
     y: {
       display: true,
-      min: 10,
-      max: 90,
+      min: 0,
+      max: 80,
       step: 10,
       axisColor: "rgb(0,0,0,0.1)",
       fontSize: "13px",
       grid: true,
     },
     title: {
-      text: "chart title",
-      fontSize: "18px",
+      text: "Title",
+      // fontSize: "20px",
+      align: "center",
     },
   };
 
@@ -49,15 +42,13 @@ function App() {
   };
 
   return (
-    <>
-      <LineChart
-        width={500}
-        height={500}
-        data={data}
-        label={label}
-        option={option}
-      />
-    </>
+    <LineChart
+      width={500}
+      height={500}
+      data={data}
+      label={label}
+      option={option}
+    />
   );
 }
 

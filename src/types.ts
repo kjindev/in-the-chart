@@ -46,13 +46,24 @@ export interface DataProps {
       fontSize?: string;
       grid?: boolean;
     };
-    title: {
+    title?: {
       text?: string;
       fontSize?: string;
+      align?: string;
     };
   };
   option: {
     backgroundColor?: string;
     borderRadius?: string;
+  };
+}
+
+export interface TitleProps {
+  width: number;
+  titleHeight: number;
+  option?: {
+    text?: string;
+    fontSize?: string;
+    align?: string;
   };
 }
