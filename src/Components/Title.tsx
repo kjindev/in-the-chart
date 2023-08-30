@@ -1,11 +1,6 @@
-import { useEffect } from "react";
-import { TitleProps } from "./types";
+import { TitleProps } from "../types";
 
-export default function LinChartTitle({
-  width,
-  titleHeight,
-  option,
-}: TitleProps) {
+export default function Title({ width, titleHeight, option }: TitleProps) {
   return (
     <div
       style={{
