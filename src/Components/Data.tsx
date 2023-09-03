@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DataProps, DatasetType, XYType } from "../types";
 
-export default function Data({ width, height, data, label }: DataProps) {
+export default function Data({ width, height, data, label }: any) {
   const svgWidth = width;
   const titlePadding = label.title?.fontSize
     ? Number(label.title.fontSize.slice(0, -2)) * 1.2
@@ -176,5 +176,17 @@ export default function Data({ width, height, data, label }: DataProps) {
     }
   }, [xAxis, yAxis]);
 
-  return { svgWidth, svgHeight, titleHeight, dataset };
+  return {
+    svgWidth,
+    svgHeight,
+    titleHeight,
+    dataset,
+    xRange,
+    yRange,
+    xAxis,
+    yAxis,
+    chartWidth,
+    chartHeight,
+    chartMargin,
+  };
 }

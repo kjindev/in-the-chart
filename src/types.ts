@@ -10,6 +10,7 @@ export interface DataType {
   pointColor?: string;
   pointSize?: string;
   areaColor?: string;
+  size?: string;
 }
 
 export interface DatasetType {
