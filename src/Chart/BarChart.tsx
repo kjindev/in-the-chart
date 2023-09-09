@@ -73,10 +73,23 @@ const BarChart = ({ width, height, data, label, option }: DataProps) => {
         max: label.x.max !== undefined ? label.x.max : Math.max(...xMaxTemp),
       };
 
+      let dataRangeTest = data.map((item) =>
+        item.y.filter((element) => element < 0)
+      );
+
+      let dataRangeTestResult = dataRangeTest.map((item) => item.length > 0);
+
       let yRangeTemp = {
-        min: label.y.min !== undefined ? label.y.min : Math.min(...yMinTemp),
+        min: label.y.min !== undefined ? label.y.min : 0,
         max: label.y.max !== undefined ? label.y.max : Math.max(...yMaxTemp),
       };
+
+      if (dataRangeTestResult.includes(true)) {
+        yRangeTemp = {
+          min: label.y.min !== undefined ? label.y.min : Math.min(...yMinTemp),
+          max: label.y.max !== undefined ? label.y.max : Math.max(...yMaxTemp),
+        };
+      }
 
       setXrange(xRangeTemp);
       setYrange(yRangeTemp);
@@ -116,7 +129,6 @@ const BarChart = ({ width, height, data, label, option }: DataProps) => {
       }
     }
     setDataList(temp);
-    console.log(temp);
   }, []);
 
   return (
@@ -146,17 +158,21 @@ const BarChart = ({ width, height, data, label, option }: DataProps) => {
                 index * (chartWidth / xAxis.numOfGrid) +
                 15;
               const yPosition =
-                (yRange.max - yRange.min) * yAxis.scale -
-                item.y * yAxis.scale +
-                chartMargin.y.body;
-
+                item.y >= 0
+                  ? chartMargin.y.body +
+                    (yRange.max - 0) * yAxis.scale -
+                    item.y * yAxis.scale
+                  : chartMargin.y.body + (yRange.max - 0) * yAxis.scale;
+              // - (0 - yRange.min) * yAxis.scale
               return (
                 <rect
                   key={index}
                   x={xPosition}
                   y={yPosition}
                   width="30"
-                  height={item.y * yAxis.scale}
+                  height={
+                    item.y >= 0 ? item.y * yAxis.scale : -item.y * yAxis.scale
+                  }
                   fill="blue"
                 />
               );

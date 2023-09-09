@@ -16,7 +16,7 @@ function App() {
   const barData = [
     {
       x: [20, 40, 60, 80, 100],
-      y: [30, 50, 20, 50, 80],
+      y: [30, 50, 20, 10, 80],
       color: "green",
       borderColor: "green",
       size: "30",
@@ -26,17 +26,13 @@ function App() {
   const label = {
     x: {
       display: true,
-      // min: 0,
-      // max: 100,
-      // step: 20,
       axisColor: "rgb(0,0,0,0.1)",
       fontSize: "11px",
       grid: true,
     },
     y: {
       display: true,
-      min: 0,
-      // max: 80,
+      max: 100,
       step: 10,
       axisColor: "rgb(0,0,0,0.1)",
       fontSize: "11px",
