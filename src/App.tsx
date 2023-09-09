@@ -1,23 +1,22 @@
-import Axis from "./Components/Axis";
-import LineChart from "./Chart/LineChart";
 import BarChart from "./Chart/BarChart";
+import LineChart from "./Chart/LineChart";
 
 function App() {
-  // const data = [
-  //   {
-  //     x: [0, 20, 40, 60, 80],
-  //     y: [20, 30, 50, 20, 50],
-  //     lineColor: "green",
-  //     pointColor: "green",
-  //     pointSize: "3",
-  //     areaColor: "green",
-  //   },
-  // ];
-
   const data = [
     {
-      x: [20, 40, 60, 80],
-      y: [30, 50, 20, 50],
+      x: [0, 20, 40, 60, 80],
+      y: [20, 30, 50, 20, 50],
+      lineColor: "green",
+      pointColor: "green",
+      pointSize: "3",
+      areaColor: "green",
+    },
+  ];
+
+  const barData = [
+    {
+      x: [20, 40, 60, 80, 100],
+      y: [30, 50, 20, 50, 80],
       color: "green",
       borderColor: "green",
       size: "30",
@@ -37,7 +36,7 @@ function App() {
     y: {
       display: true,
       min: 0,
-      max: 80,
+      // max: 80,
       step: 10,
       axisColor: "rgb(0,0,0,0.1)",
       fontSize: "11px",
@@ -57,8 +56,8 @@ function App() {
 
   return (
     <>
-      {/* <LineChart
-        width={300}
+      {/* <LineChartTemp
+        width={500}
         height={400}
         data={data}
         label={label}
@@ -67,7 +66,7 @@ function App() {
       <BarChart
         width={350}
         height={350}
-        data={data}
+        data={barData}
         label={label}
         option={option}
       />
