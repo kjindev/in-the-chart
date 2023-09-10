@@ -38,11 +38,11 @@ function App() {
       fontSize: "11px",
       grid: true,
     },
-    // title: {
-    //   text: "차트 제목...",
-    //   fontSize: "20px",
-    //   align: "center",
-    // },
+    title: {
+      text: "차트 제목",
+      // fontSize: "20px",
+      // align: "end",
+    },
   };
 
   const option = {

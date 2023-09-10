@@ -140,7 +140,12 @@ const BarChart = ({ width, height, data, label, option }: DataProps) => {
       }}
     >
       {label.title && (
-        <Title width={width} titleHeight={titleHeight} option={label.title} />
+        <Title
+          width={width}
+          titleHeight={titleHeight}
+          chartMarginX={chartMargin.x.text}
+          option={label.title}
+        />
       )}
       <div
         style={{
