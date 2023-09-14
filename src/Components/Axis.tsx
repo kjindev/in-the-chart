@@ -1,19 +1,7 @@
 import { useEffect, useState } from "react";
 import { DataProps } from "../types";
-import Data from "./Data";
 
 const Axis = ({ width, height, data, label }: any) => {
-  const {
-    svgWidth,
-    svgHeight,
-    xRange,
-    yRange,
-    xAxis,
-    yAxis,
-    chartWidth,
-    chartHeight,
-    chartMargin,
-  } = Data({ width, height, data, label });
   return <div></div>;
   // return (
   //   <svg width={svgWidth} height={svgHeight}>

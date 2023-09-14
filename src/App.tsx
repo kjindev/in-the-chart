@@ -1,5 +1,5 @@
-import BarChart from "./Chart/BarChart";
-import LineChart from "./Chart/LineChart";
+import BarChart from "./chart/BarChart";
+import LineChart from "./chart/LineChart";
 
 function App() {
   const data = [
@@ -16,7 +16,14 @@ function App() {
   const barData = [
     {
       x: [20, 40, 60, 80, 100],
-      y: [30, 50, 20, 10, 80],
+      y: [30, 50, 20, 10, 30],
+      color: "green",
+      borderColor: "green",
+      size: "30",
+    },
+    {
+      x: [20, 40, 60, 80, 100],
+      y: [10, 20, 30, 60, 30],
       color: "green",
       borderColor: "green",
       size: "30",

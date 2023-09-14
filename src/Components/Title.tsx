@@ -6,7 +6,6 @@ export default function Title({
   chartMarginX,
   option,
 }: any) {
-  console.log(`${chartMarginX}px`);
   return (
     <div
       style={{

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { DataProps, XYType, DatasetType } from "../types";
-import LineChartTitle from "../Components/Title";
+import LineChartTitle from "../components/Title";
 
 const LineChart = ({ width, height, data, label, option }: DataProps) => {
   const svgWidth = width;

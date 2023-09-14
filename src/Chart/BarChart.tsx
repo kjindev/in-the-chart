@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { DataProps } from "../types";
-import Title from "../Components/Title";
+import Title from "../components/Title";
 
 const BarChart = ({ width, height, data, label, option }: DataProps) => {
   const [dataList, setDataList] = useState([]);
@@ -123,13 +123,16 @@ const BarChart = ({ width, height, data, label, option }: DataProps) => {
 
   useEffect(() => {
     let temp: any = [];
+    let temp2: any = [];
     for (let i = 0; i < data.length; i++) {
+      temp = [];
       for (let j = 0; j < data[i].x.length; j++) {
         temp.push({ x: data[i].x[j], y: data[i].y[j] });
       }
+      temp2.push(temp);
     }
-    setDataList(temp);
-  }, []);
+    setDataList(temp2);
+  }, [xAxis, yAxis]);
 
   return (
     <div
@@ -156,31 +159,62 @@ const BarChart = ({ width, height, data, label, option }: DataProps) => {
         }}
       >
         <svg width={svgWidth} height={svgHeight}>
+          {/* {dataList.length !== 0 &&
+            dataList.map((element: any) => {
+              item.map((item, index) => 
+              
+            {  const xPosition =
+              chartMargin.x.body +
+              index * (chartWidth / xAxis.numOfGrid) +
+              15;
+            const yPosition =
+              item.y >= 0
+                ? chartMargin.y.body +
+                  (yRange.max - 0) * yAxis.scale -
+                  item.y * yAxis.scale
+                : chartMargin.y.body + (yRange.max - 0) * yAxis.scale;
+            // - (0 - yRange.min) * yAxis.scale
+            return (
+              <rect
+                key={index}
+                x={xPosition}
+                y={yPosition}
+                width="30"
+                height={
+                  item.y >= 0 ? item.y * yAxis.scale : -item.y * yAxis.scale
+                }
+              />
+            )}
+              )
+            
+            })} */}
           {dataList.length !== 0 &&
-            dataList.map((item: any, index) => {
-              const xPosition =
-                chartMargin.x.body +
-                index * (chartWidth / xAxis.numOfGrid) +
-                15;
-              const yPosition =
-                item.y >= 0
-                  ? chartMargin.y.body +
-                    (yRange.max - 0) * yAxis.scale -
-                    item.y * yAxis.scale
-                  : chartMargin.y.body + (yRange.max - 0) * yAxis.scale;
-              // - (0 - yRange.min) * yAxis.scale
-              return (
-                <rect
-                  key={index}
-                  x={xPosition}
-                  y={yPosition}
-                  width="30"
-                  height={
-                    item.y >= 0 ? item.y * yAxis.scale : -item.y * yAxis.scale
-                  }
-                  fill="blue"
-                />
-              );
+            dataList.map((element: any, i: number) => {
+              return element.map((item: any, index: number) => {
+                const xPosition =
+                  chartMargin.x.body +
+                  index * (chartWidth / xAxis.numOfGrid) +
+                  15;
+                const yPosition =
+                  item.y >= 0
+                    ? chartMargin.y.body +
+                      (yRange.max - 0) * yAxis.scale -
+                      item.y * yAxis.scale
+                    : chartMargin.y.body + (yRange.max - 0) * yAxis.scale;
+
+                return (
+                  <rect
+                    key={index}
+                    x={i === 1 ? xPosition : xPosition + 20}
+                    y={yPosition}
+                    width={chartWidth / xAxis.numOfGrid / 5}
+                    height={
+                      item.y >= 0 ? item.y * yAxis.scale : -item.y * yAxis.scale
+                    }
+                    fill={i === 1 ? "blue" : "green"}
+                  />
+                );
+              });
             })}
           <svg>
             {/* X Axis Grid */}

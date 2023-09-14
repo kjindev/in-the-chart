@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { DataProps, XYType, DatasetType } from "../types";
-import Title from "../Components/Title";
+import Title from "../components/Title";
 
 const LineChart2 = ({ width, height, data, label, option }: DataProps) => {
   const [loading, setLoading] = useState(false);
