@@ -205,9 +205,9 @@ const BarChart = ({ width, height, data, label, option }: DataProps) => {
                 return (
                   <rect
                     key={index}
-                    x={i === 1 ? xPosition : xPosition + 20}
+                    x={xPosition}
                     y={yPosition}
-                    width={chartWidth / xAxis.numOfGrid / 5}
+                    width="30"
                     height={
                       item.y >= 0 ? item.y * yAxis.scale : -item.y * yAxis.scale
                     }
@@ -239,50 +239,49 @@ const BarChart = ({ width, height, data, label, option }: DataProps) => {
                 }
               )}
             {/* X Axis Label */}
-            {xAxis.numOfGrid !== 0 &&
+            {/* {xAxis.numOfGrid !== 0 &&
               label.x.display &&
-              // Array.from({ length: Math.ceil(xAxis.numOfGrid) }).map(
-              //   (_, index) => {
-              //     const xPosition =
-              //       chartMargin.x.body + index * (chartWidth / xAxis.numOfGrid);
-              //     const yPosition =
-              //       chartHeight + chartMargin.y.body + chartMargin.x.text;
-              //     return (
-              //       <text
-              //         key={index}
-              //         x={xPosition}
-              //         y={yPosition}
-              //         textAnchor="middle"
-              //         style={{ fontSize: label.x.fontSize }}
-              //       >
-              //         {/* {xRange.min + xAxis.step * index > xRange.max
-              //           ? ""
-              //           : xRange.min + xAxis.step * index} */}
-              //       </text>
-              //     );
-              //   }
-              // )
+              Array.from({ length: Math.ceil(xAxis.numOfGrid) }).map(
+                (_, index) => {
+                  const xPosition =
+                    chartMargin.x.body + index * (chartWidth / xAxis.numOfGrid);
+                  const yPosition =
+                    chartHeight + chartMargin.y.body + chartMargin.x.text;
+                  return (
+                    <text
+                      key={index}
+                      x={xPosition}
+                      y={yPosition}
+                      textAnchor="middle"
+                      style={{ fontSize: label.x.fontSize }}
+                    >
+                      {xRange.min + xAxis.step * index > xRange.max
+                        ? ""
+                        : xRange.min + xAxis.step * index}
+                    </text>
+                  );
+                }
+              )} */}
+            {dataList.map((item: any, index: number) => {
+              const xPosition =
+                chartMargin.x.body +
+                index * (chartWidth / xAxis.numOfGrid) +
+                chartWidth / xAxis.numOfGrid / 2;
 
-              dataList.map((item: any, index: number) => {
-                const xPosition =
-                  chartMargin.x.body +
-                  index * (chartWidth / xAxis.numOfGrid) +
-                  chartWidth / xAxis.numOfGrid / 2;
-
-                const yPosition =
-                  chartHeight + chartMargin.y.body + chartMargin.x.text;
-                return (
-                  <text
-                    key={index}
-                    x={xPosition}
-                    y={yPosition}
-                    textAnchor="middle"
-                    style={{ fontSize: label.x.fontSize }}
-                  >
-                    {item.x}
-                  </text>
-                );
-              })}
+              const yPosition =
+                chartHeight + chartMargin.y.body + chartMargin.x.text;
+              return (
+                <text
+                  key={index}
+                  x={xPosition}
+                  y={yPosition}
+                  textAnchor="middle"
+                  style={{ fontSize: label.x.fontSize }}
+                >
+                  {item.x}
+                </text>
+              );
+            })}
             {/* Y Axis Grid */}
             {yAxis.numOfGrid &&
               label.y.grid &&

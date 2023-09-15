@@ -1,5 +1,6 @@
-import BarChart from "./chart/BarChart";
-import LineChart from "./chart/LineChart";
+import BarChart from "./lib/chart/BarChart";
+import LineChart from "./lib/chart/LineChart";
+import React from "react";
 
 function App() {
   const data = [
@@ -17,13 +18,6 @@ function App() {
     {
       x: [20, 40, 60, 80, 100],
       y: [30, 50, 20, 10, 30],
-      color: "green",
-      borderColor: "green",
-      size: "30",
-    },
-    {
-      x: [20, 40, 60, 80, 100],
-      y: [10, 20, 30, 60, 30],
       color: "green",
       borderColor: "green",
       size: "30",
@@ -59,17 +53,10 @@ function App() {
 
   return (
     <>
-      {/* <LineChartTemp
+      <LineChart
         width={500}
         height={400}
         data={data}
-        label={label}
-        option={option}
-      /> */}
-      <BarChart
-        width={350}
-        height={350}
-        data={barData}
         label={label}
         option={option}
       />
