@@ -1,6 +1,6 @@
 {
-  "name": "in-chart",
-  "version": "0.0.1",
+  "name": "in-the-chart",
+  "version": "1.0.1",
   "private": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,6 +19,7 @@
     "type": "git",
     "url": "https://github.com/kjindev/chart"
   },
+  "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
