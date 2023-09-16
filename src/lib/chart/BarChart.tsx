@@ -138,8 +138,8 @@ const BarChart = ({ width, height, data, label, option }: DataProps) => {
     <div
       style={{
         width: width,
-        backgroundColor: option.backgroundColor,
-        borderRadius: option.borderRadius,
+        backgroundColor: option?.backgroundColor,
+        borderRadius: option?.borderRadius,
       }}
     >
       {label.title && (
@@ -152,10 +152,10 @@ const BarChart = ({ width, height, data, label, option }: DataProps) => {
       )}
       <div
         style={{
-          backgroundColor: option.backgroundColor,
+          backgroundColor: option?.backgroundColor,
           width: svgWidth,
           height: svgHeight,
-          borderRadius: option.borderRadius,
+          borderRadius: option?.borderRadius,
         }}
       >
         <svg width={svgWidth} height={svgHeight}>

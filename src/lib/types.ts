@@ -53,7 +53,7 @@ export interface DataProps {
       align?: string;
     };
   };
-  option: {
+  option?: {
     backgroundColor?: string;
     borderRadius?: string;
   };
