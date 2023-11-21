@@ -42,6 +42,8 @@ jobs:
       - run: git config user.email "pkjin.eng@gmail.com"
       - run: npm install
       - run: npm run prepare
+      - run: git status
+      - run: git restore .
       - run: npm version patch
       - run: npm publish
         env:
