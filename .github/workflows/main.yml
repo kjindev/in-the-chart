@@ -45,7 +45,12 @@ jobs:
       - run: git status
       - run: git restore .
       - run: npm version patch
-      - run: git push
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: Push commit
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
