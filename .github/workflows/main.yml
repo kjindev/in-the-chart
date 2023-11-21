@@ -38,8 +38,10 @@ jobs:
         with:
           node-version: 16.14.1
           registry-url: https://registry.npmjs.org/
-      - run: git config --local user.name "${{secrets.USERNAME}}"
-      - run: git config --local user.email "${{secrets.USEREMAIL}}"
+      # - run: git config --local user.name "${{secrets.USERNAME}}"
+      # - run: git config --local user.email "${{secrets.USEREMAIL}}"
+      - run: git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - run: git config --local user.name "github-actions[bot]"
       - run: npm install
       - run: npm run prepare
       - run: git status
