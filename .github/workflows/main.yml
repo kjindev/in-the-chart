@@ -45,6 +45,7 @@ jobs:
       - run: git status
       - run: git restore .
       - run: npm version patch
+      - run: git push
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
