@@ -1,6 +1,6 @@
 {
   "name": "in-the-chart",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "private": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
