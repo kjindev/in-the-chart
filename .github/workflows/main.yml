@@ -15,19 +15,19 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      # - run: npm install
-      # - run: npm run prepare
-    #   - run: npm publish
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  # - run: npm install
+  # - run: npm run prepare
+  #   - run: npm publish
 
   publish-gpr:
-    needs: build
+    # needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -38,8 +38,8 @@ jobs:
         with:
           node-version: 16.14.1
           registry-url: https://registry.npmjs.org/
-      - run: git config user.name "${{secrets.USERNAME}}"
-      - run: git config user.email "${{secrets.USEREMAIL}}"
+      - run: git config --local user.name "${{secrets.USERNAME}}"
+      - run: git config --local user.email "${{secrets.USEREMAIL}}"
       - run: npm install
       - run: npm run prepare
       - run: git status
