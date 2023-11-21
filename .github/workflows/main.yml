@@ -22,8 +22,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm install
-      - run: npm run prepare
+      # - run: npm install
+      # - run: npm run prepare
     #   - run: npm publish
 
   publish-gpr:
@@ -40,6 +40,8 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - run: git config user.name "kjindev"
       - run: git config user.email "pkjin.eng@gmail.com"
+      - run: npm install
+      - run: npm run prepare
       - run: npm version patch
       - run: npm publish
         env:
